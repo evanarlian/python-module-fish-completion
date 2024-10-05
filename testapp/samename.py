@@ -1,1 +1,1 @@
-print("outer check")
+print("outer samename")
