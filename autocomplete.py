@@ -3,6 +3,8 @@ from pathlib import Path
 
 def module_autocomplete(module_path: str) -> set[str]:
     try:
+        # handle fish weird space escape
+        module_path = module_path.replace("\\ ", " ")
         if module_path.startswith("."):
             # python does not support relative module name using python -m
             return set()
@@ -40,21 +42,19 @@ def module_autocomplete(module_path: str) -> set[str]:
             if tail is not None and not path.name.startswith(tail):
                 continue
             if path.is_dir():
-                cleaned = str(path).replace("/", ".").replace(" ", "\\ ") + "."
+                cleaned = str(path).replace("/", ".") + "."
             else:
                 assert path.suffix == ".py"
-                cleaned = str(path).replace("/", ".").replace(" ", "\\ ")[:-3]
+                cleaned = str(path).replace("/", ".")[:-3]
             valid_paths.add(cleaned)
         return valid_paths
     except Exception as e:
-        print(e)
         return set()
 
 def main():
-    paths = module_autocomplete("")
+    paths = module_autocomplete('"\"$target_path\""')
     for path in sorted(paths):
         print(path)
-
 
 if __name__ == "__main__":
     main()
