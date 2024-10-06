@@ -51,7 +51,7 @@ def module_autocomplete(module_path: str) -> set[str]:
         return set()
 
 def main():
-    paths = module_autocomplete("testapp.dotfile.bn")
+    paths = module_autocomplete("")
     for path in sorted(paths):
         print(path)
 
