@@ -47,7 +47,7 @@ def module_autocomplete(module_path: str) -> set[str]:
 
 
 def main():
-    paths = module_autocomplete("testapp.")
+    paths = module_autocomplete("")
     for path in paths:
         print(path)
 
