@@ -55,3 +55,8 @@ class TestValidPaths(unittest.TestCase):
         generated = module_autocomplete("testapp.samename.")
         expected = set()
         self.assertEqual(generated, expected)
+
+    def test_nonexistent(self):
+        generated = module_autocomplete("testapp.hehe")
+        expected = set()
+        self.assertEqual(generated, expected)
