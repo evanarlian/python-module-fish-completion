@@ -48,7 +48,7 @@ def module_autocomplete(module_path: str) -> set[str]:
                 cleaned = str(path).replace("/", ".")[:-3]
             valid_paths.add(cleaned)
         return valid_paths
-    except Exception as e:
+    except Exception:
         return set()
 
 def main():

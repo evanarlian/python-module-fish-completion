@@ -29,7 +29,7 @@ class TestValidPaths(unittest.TestCase):
         expected = {
             "testapp.__dunder.",
             "testapp.dotfile.",
-            "testapp.lol\\ lol.",
+            "testapp.lol lol.",
             "testapp.samename",
             "testapp.samename.",
             "testapp.__pycache__",
@@ -48,7 +48,7 @@ class TestValidPaths(unittest.TestCase):
 
     def test_subfolder3(self):
         generated = module_autocomplete("testapp.lol lol.")
-        expected = {"testapp.lol\\ lol.lol\\ lol"}
+        expected = {"testapp.lol lol.lol lol"}
         self.assertEqual(generated, expected)
 
     def test_subfolder4(self):
