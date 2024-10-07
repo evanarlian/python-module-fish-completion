@@ -17,10 +17,10 @@ def module_autocomplete(module_path: str) -> set[str]:
             tail = None
         else:
             # "app.core" can be autocompleted to "app.coreboot"
-            try:
-                module_path, tail = f"{module_path}".rsplit(".", maxsplit=1)
+            if "." in module_path:
+                module_path, tail = module_path.rsplit(".", maxsplit=1)
                 module_path = module_path.replace(".", "/")
-            except ValueError:
+            else:
                 module_path, tail = "", module_path
             cwd = Path(module_path)
 
