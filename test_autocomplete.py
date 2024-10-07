@@ -6,7 +6,13 @@ from autocomplete import module_autocomplete
 class TestValidPaths(unittest.TestCase):
     def test_empty(self):
         generated = module_autocomplete("")
-        expected = {"testapp.", "autocomplete", "completions.", "test_autocomplete"}
+        expected = {
+            "testapp.",
+            "autocomplete",
+            "completions.",
+            "functions.",
+            "test_autocomplete",
+        }
         self.assertEqual(generated, expected)
 
     def test_relative_module(self):
