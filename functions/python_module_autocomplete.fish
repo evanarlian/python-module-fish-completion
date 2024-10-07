@@ -68,5 +68,5 @@ end
 
 function python_module_autocomplete_wrapper -d "Fish wrapper for python module generation"
     set -l tokens (commandline -ct)
-    __python_module_autocomplete $tokens
+    python_module_autocomplete $tokens
 end
