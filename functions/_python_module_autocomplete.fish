@@ -7,7 +7,7 @@ from pathlib import Path
 def module_autocomplete(module_path: str) -> set[str]:
     try:
         # handle fish weird space escape
-        module_path = module_path.replace("\\ ", " ")
+        module_path = module_path.replace("\\\\ ", " ")
         if module_path.startswith("."):
             # python does not support relative module name using python -m
             return set()
