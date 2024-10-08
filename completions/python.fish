@@ -36,4 +36,4 @@ complete -c python -n 'python -V 2>&1 | string match -rq "^.*\s3"' -s I -d 'Run 
 complete -c python -n 'python -V 2>&1 | string match -rq "^.*\s3"' -o VV -d 'Print further version info'
 
 # ADDED THIS ONE
-complete -c python -s m -f -d 'Local module' -xa '(python_module_autocomplete_wrapper)'
+complete -c python -s m -f -d 'Local module' -xa '(_python_module_autocomplete_wrapper)'
