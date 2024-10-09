@@ -25,6 +25,7 @@ textwrap                 (Run library module as a script (terminates option list
 
 Features:
 * Supports nested modules, works similar to standard path completions. Just tab and enter.
+* Supports dashed folder.
 * Ignores hidden files and folders.
 * Handles modules with spaces, automatically escapes and de-escapes to and from fish string.
 * Detects runnable folders as modules, while ignoring plain folders.
@@ -33,12 +34,13 @@ Features:
 ```bash
 $ python -m testapp.<TAB>
 # it will show:
-testapp.dotfile.     (Local module)
-testapp.lol lol.     (Local module)
-testapp.samename     (Local module)
-testapp.samename.    (Local module)
-testapp.__dunder.    (Local module)
-testapp.__pycache__  (Local module)
+testapp.dash-folder-hehe.  (Local module)
+testapp.dotfile.           (Local module)
+testapp.lol lol.           (Local module)
+testapp.samename           (Local module)
+testapp.samename.          (Local module)
+testapp.__dunder.          (Local module)
+testapp.__pycache__        (Local module)
 ```
 
 # development
