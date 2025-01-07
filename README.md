@@ -1,8 +1,8 @@
 # python-module-fish-completion
-`python -m` fish completion.
+`python -m` and `uv run -m` fish completion.
 
 # usage
-Install with fisher. Supports only `python` command, while `python3` and `python2` are not covered.
+Install with fisher. Supports only `python` and `uv run` command, while `python3` and `python2` are not covered.
 ```bash
 fisher install evanarlian/python-module-fish-completion
 ```
@@ -24,6 +24,7 @@ textwrap                 (Run library module as a script (terminates option list
 ```
 
 Features:
+* NEW! Supports `uv run -m`.
 * Supports nested modules, works similar to standard path completions. Just tab and enter.
 * Supports dashed folder.
 * Ignores hidden files and folders.
@@ -50,3 +51,7 @@ Run tests.
 ```bash
 python -m unittest test_autocomplete.py
 ```
+
+# TODO
+* BUG: `python -m<TAB>` will crash, to prevent that, use space after `-m`, like this `python -m <TAB>`. This bug affects my `uv` completion as well.
+* Wait for fish 4.0 rust update and revisit the reference for python autocomplete 
