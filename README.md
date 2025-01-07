@@ -54,4 +54,5 @@ python -m unittest test_autocomplete.py
 
 # TODO
 * BUG: `python -m<TAB>` will crash, to prevent that, use space after `-m`, like this `python -m <TAB>`. This bug affects my `uv` completion as well.
-* Wait for fish 4.0 rust update and revisit the reference for python autocomplete 
+* BUG: `uv run -m` might not work correctly since it uses `python` during candidate generation, the correct usage should be `uv run python`. The fix would be to duplicate the function
+* Wait for fish 4.0 rust update and revisit the reference for python autocomplete
