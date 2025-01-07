@@ -34,6 +34,7 @@ class TestValidPaths(unittest.TestCase):
         generated = module_autocomplete("testapp.")
         expected = {
             "testapp.__dunder.",
+            "testapp.dash-folder-hehe.",
             "testapp.dotfile.",
             "testapp.lol lol.",
             "testapp.samename",
