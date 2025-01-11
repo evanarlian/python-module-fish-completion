@@ -53,5 +53,4 @@ python -m unittest test_autocomplete.py
 ```
 
 # TODO
-* BUG: `uv run -m` might not work correctly since it uses `python` during candidate generation, the correct usage should be `uv run python`. The fix would be to duplicate the function
 * Wait for fish 4.0 rust update and revisit the reference for python autocomplete. This might be [the answer](https://github.com/fish-shell/fish-shell/issues/10943) for second `-m` false positive, e.g. `python -m myapp -m <TAB>`. This should not trigger autocomplete.
