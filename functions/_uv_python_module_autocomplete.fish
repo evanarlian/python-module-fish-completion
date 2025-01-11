@@ -1,4 +1,4 @@
-function _python_module_autocomplete -d "Generate autocompletions for python modules in pwd"
+function _uv_python_module_autocomplete -d "Generate autocompletions for uv python modules in pwd"
     set -l target_path (string replace -a -- '\\ ' ' ' $argv[1])
     set -l autocompleter '
 from pathlib import Path
