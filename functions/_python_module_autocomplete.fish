@@ -1,64 +1,80 @@
-function _python_module_autocomplete -d "Generate autocompletions for python modules in pwd"
-    set -l target_path (string replace -a -- '\\ ' ' ' $argv[1])
-    set -l autocompleter '
-from pathlib import Path
+function _python_module_autocomplete -d "Generate autocompletions for python local modules"
+    set -l target (string replace -a -- '\\ ' ' ' "$argv[1]")
+    # command substitution of empty output yields an empty list; force a single empty element
+    set -q target[1]; or set target ""
 
+    # python -m does not support relative module names
+    if string match -q -- '.*' $target
+        return
+    end
 
-def module_autocomplete(module_path: str) -> set[str]:
-    try:
-        if module_path.startswith("."):
-            # python does not support relative module name using python -m
-            return set()
-        if module_path.endswith("."):
-            # "app.core." can be autocompleted to "app.core.engine"
-            cwd = Path(module_path.replace(".", "/"))
-            tail = None
-        else:
-            # "app.core" can be autocompleted to "app.coreboot"
-            if "." in module_path:
-                module_path, tail = module_path.rsplit(".", maxsplit=1)
-                module_path = module_path.replace(".", "/")
-            else:
-                module_path, tail = "", module_path
-            cwd = Path(module_path)
+    set -l cwd_str ''
+    set -l tail ''
+    set -l has_tail 0
 
-        # generate valid path that might be able to be run using python -m
-        # some python -m behavior:
-        # * does not support relative module invocation, e.g. python -m .meme
-        # * if the same filename and folder found, this is the precedence of execution
-        #   * package, e.g. app/check/ (must have __init__.py and __main__.py)
-        #   * file module, e.g. app/check.py
-        #   * folder module, e.g. app/check/ (must have only __main__.py)
-        # * note that __init__.py is only needed to mark a folder as package, but python will still run the __main__.py
-        valid_paths: set[str] = set()
-        for path in Path(cwd).iterdir():
-            if path.name.startswith("."):
-                continue
-            if path.is_dir() and path.name == "__pycache__":
-                continue
-            if path.is_file() and path.name in {"__main__.py", "__init__.py"}:
-                continue
-            if not (path.is_dir() or path.suffix == ".py"):
-                continue
-            if tail is not None and not path.name.startswith(tail):
-                continue
-            if path.is_dir():
-                cleaned = str(path).replace("/", ".") + "."
-            else:
-                assert path.suffix == ".py"
-                cleaned = str(path).replace("/", ".")[:-3]
-            valid_paths.add(cleaned)
-        return valid_paths
-    except Exception:
-        return set()
+    if string match -q -- '*.' $target
+        # ends with "." → list inside that directory, no prefix filter
+        set cwd_str (string replace -a -- '.' '/' $target)
+    else
+        set has_tail 1
+        if string match -q -- '*.*' $target
+            # split on the last dot
+            set -l tail_match (string match -r -- '[^.]*$' $target)
+            set -l target_len (string length -- $target)
+            set -l match_len (string length -- $tail_match)
+            set -l left_len (math $target_len - $match_len - 1)
+            set -l left (string sub -l $left_len -- $target)
+            set tail $tail_match
+            set cwd_str (string replace -a -- '.' '/' $left)
+        else
+            set tail $target
+        end
+    end
 
-def main():
-    paths = module_autocomplete('"\"$target_path\""')
-    for path in sorted(paths):
-        print(path)
+    set -l search_dir '.'
+    set -l prefix ''
+    if test -n "$cwd_str"
+        set search_dir (string trim -r -c '/' -- $cwd_str)
+        set prefix (string replace -a -- '/' '.' $search_dir).
+    end
 
-if __name__ == "__main__":
-    main()
-        '
-    python -c "$autocompleter"
+    if not test -d "$search_dir"
+        return
+    end
+
+    for entry in $search_dir/*
+        set -l name (path basename -- $entry)
+
+        # skip __pycache__ directory (but keep __pycache__.py file)
+        if test -d "$entry"; and test "$name" = '__pycache__'
+            continue
+        end
+
+        # skip __init__.py / __main__.py
+        if test -f "$entry"; and contains -- $name __init__.py __main__.py
+            continue
+        end
+
+        # if not a directory, require .py suffix
+        if not test -d "$entry"
+            if not string match -q -- '*.py' $name
+                continue
+            end
+        end
+
+        # prefix filter (skipped when tail is empty — matches everything)
+        if test $has_tail -eq 1; and test -n "$tail"
+            set -l head (string sub -l (string length -- $tail) -- $name)
+            if test "$head" != "$tail"
+                continue
+            end
+        end
+
+        if test -d "$entry"
+            echo $prefix$name'.'
+        else
+            set -l stripped_len (math (string length -- $name) - 3)
+            echo $prefix(string sub -l $stripped_len -- $name)
+        end
+    end
 end

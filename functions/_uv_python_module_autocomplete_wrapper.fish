@@ -1,4 +1,0 @@
-function _uv_python_module_autocomplete_wrapper -d "Fish wrapper for uv python module generation"
-    set -l tokens (commandline -ct)
-    _uv_python_module_autocomplete $tokens
-end
