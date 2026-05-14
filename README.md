@@ -1,5 +1,5 @@
 # python-module-fish-completion
-`python -m` and `uv run -m` fish completion.
+`{python,python3,uv run} -m` fish completion.
 
 # usage
 Install with fisher. Supports `python`, `python3`, and `uv run`.
@@ -31,7 +31,7 @@ Features:
 * Detects runnable folders as modules, while ignoring plain folders.
 * Skips commonly ignored folders such as `__pycache__/`, but does not ignore file named `__pycache__.py`, as that can still be a valid module.
 * Suppresses the second-`-m` false positive: `python -m myapp -m <TAB>` does not offer local-module completions (the second `-m` is an argument to `myapp`, not a python flag). Same for `uv run -m`.
-* Fast. Pure fish, no subprocess — well under 1ms per invocation.
+* Fast. Pure fish, no subprocess.
 
 ```bash
 $ python -m testapp.<TAB>
