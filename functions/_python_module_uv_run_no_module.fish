@@ -1,4 +1,4 @@
-function __fish_uv_run_no_module -d "True if `uv run` has not yet been given a module to execute"
+function _python_module_uv_run_no_module -d "True if `uv run` has not yet been given a module to execute"
     # Returns true while the user is still completing the FIRST -m's argument;
     # false on the second -m (which is an argument to the module, not a uv flag).
     set -l tokens (commandline -opc)

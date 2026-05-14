@@ -66,7 +66,7 @@ check test_nonexistent 'testapp.hehe'
 
 # === completion condition tests ===
 # These probe the -n guards (__fish_python_no_arg for python,
-# __fish_uv_run_no_module for uv) that suppress a false-positive
+# _python_module_uv_run_no_module for uv) that suppress a false-positive
 # completion when -m is repeated, e.g. `python -m foo -m <TAB>`.
 #
 # Each test spawns a clean sub-fish (--no-config) so a previously-installed
