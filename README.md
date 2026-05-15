@@ -32,6 +32,7 @@ Features:
 * Skips commonly ignored folders such as `__pycache__/`, but does not ignore file named `__pycache__.py`, as that can still be a valid module.
 * Suppresses the second-`-m` false positive: `python -m myapp -m <TAB>` does not offer local-module completions (the second `-m` is an argument to `myapp`, not a python flag). Same for `uv run -m`.
 * Fast. Pure fish, no subprocess.
+* Zero side effects on `uv run -m <TAB>`. Never triggers a Python interpreter download or a `uv sync`, even on a fresh repo. Falls back gracefully to local-module-only completions when no Python is available yet.
 
 ```bash
 $ python -m testapp.<TAB>

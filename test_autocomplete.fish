@@ -106,6 +106,15 @@ check_local_fires test_python3_second_m 'python3 -m foo -m '   no
 check_local_fires test_uv_first_m       'uv run -m '           yes
 check_local_fires test_uv_second_m      'uv run -m foo -m '    no
 
+# === side-effect contract ===
+# Completion must never trigger a Python interpreter download.
+if string match -q '*--no-python-downloads*' < completions/uv.fish
+    echo "PASS  test_uv_no_python_download_flag"
+else
+    echo "FAIL  test_uv_no_python_download_flag"
+    set -g failures (math $failures + 1)
+end
+
 if test $failures -eq 0
     echo "all tests passed"
     exit 0
