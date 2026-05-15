@@ -3,6 +3,6 @@
 # __fish_python_no_arg (defined upstream) is true while python is still
 # accepting flags, false once a script / -c code / -m module has been given;
 # this is what suppresses the false positive on `python -m foo -m <TAB>`.
-source $__fish_data_dir/completions/python.fish
+test -f $__fish_data_dir/completions/python.fish; and source $__fish_data_dir/completions/python.fish
 
 complete -c python -n __fish_python_no_arg -s m -f -d 'Local module' -xa '(_python_module_autocomplete (commandline -ct))'
